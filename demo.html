@@ -7,7 +7,7 @@
 		<title>Voice Interactive Website Demo</title>
 	</head>
 	<body>
-		<span style="text-decoration:underline;" onclick="startVoice()">Click here to start</span><br />
+		<span style="text-decoration:underline;cursor:pointer;" onclick="startVoice();$(this).hide();">Click here to start</span><br />
 		<h3 id="you_said_header">Input:</h3>
 		<span id="you_said"></span>
 		<h3 id="interpretation">Response:</h3>
@@ -63,7 +63,7 @@
 						if (event.results[i].isFinal) {
 							$('#you_said').html(event.results[i][0].transcript);
 							$('#you_said_header').html('You said:');
-							var response = matchResponse((req.body.transcript ? req.body.transcript : ''));
+							var response = matchResponse(event.results[i][0].transcript);
 							if (!response) response = 0;
 							$('#interpretation').html(responses[response].title);
 							$('#response').html(responses[response].response);
@@ -114,7 +114,7 @@
 					if (score > best_score[0]) best_score = [score, i];
 				}
 			}
-			console.log(input + ' matched: ' + best_score[0] + ': ' + responses[best_score[1]]);
+			console.log(input + ' matched: ' + best_score[0] + ': ' + responses[best_score[1]].title);
 			//see if it's within minimum score tolerance of 17 points:
 			if (best_score[0] < 17) {
 				return 0;
